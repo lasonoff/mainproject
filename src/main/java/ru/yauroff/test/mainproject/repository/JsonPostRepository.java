@@ -15,16 +15,8 @@ public class JsonPostRepository extends JsonRepository<Post> implements PostRepo
         setType(Post.class);
     }
 
-
     @Override
     public void create(Post entity) {
-        if (entity.getId() == null) {
-            entity.setId(UUID.randomUUID().getMostSignificantBits());
-        }
-        if (entity.getCreated() == null) {
-            entity.setCreated(new Date());
-        }
-        entity.setUpdated(new Date());
         write(entity);
     }
 
@@ -76,7 +68,7 @@ public class JsonPostRepository extends JsonRepository<Post> implements PostRepo
         List<Post> objects = readAll();
         Post obj = objects.stream().filter(x -> entity.equals(x)).findFirst().orElse(null);
         if (obj != null) {
-            obj.setUpdated(new Date());
+            obj.setUpdated(entity.getUpdated());
             obj.setContent(entity.getContent());
             writeAll(objects);
             return obj;
