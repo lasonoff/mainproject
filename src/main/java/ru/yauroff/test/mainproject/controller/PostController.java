@@ -6,9 +6,7 @@ import ru.yauroff.test.mainproject.repository.PostRepository;
 import java.util.Date;
 import java.util.UUID;
 
-/**
- * Created by ayaurov on 16.04.2021.
- */
+
 public class PostController {
     PostRepository repository;
 
