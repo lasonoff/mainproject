@@ -1,4 +1,4 @@
-package ru.yauroff.test.mainproject.repository;
+package ru.yauroff.test.mainproject.repository.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,23 +10,19 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract class JsonRepository<T> {
+/**
+ * Класс предоставляет возможность чтения/записи обюъектов в json.
+ */
+public class JsonFileDataManager<T> {
     private String filePath;
     private Class<T> type;
 
-    public JsonRepository(String filePath) {
+    public JsonFileDataManager(String filePath, Class<T> type) {
         this.filePath = filePath;
-    }
-
-    protected void setType(Class<T> type) {
         this.type = type;
     }
 
-    public long count() {
-        return readAll().size();
-    }
-
-    protected List<T> readAll() {
+    public List<T> readAll() {
         List<T> res = new ArrayList<>();
         Gson gson = new Gson();
         InputStream inputStream;
@@ -46,13 +42,13 @@ abstract class JsonRepository<T> {
         return res;
     }
 
-    protected void write(T object) {
+    public void write(T object) {
         List<T> allObjects = readAll();
         allObjects.add(object);
         writeAll(allObjects);
     }
 
-    protected void writeAll(List<T> objects) {
+    public void writeAll(List<T> objects) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         OutputStream outputStream = null;
         try {

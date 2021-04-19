@@ -3,9 +3,7 @@ package ru.yauroff.test.mainproject.repository;
 import java.util.List;
 import java.util.Optional;
 
-/**
- *
- */
+
 public interface GenericRepository<T, ID> {
 
     public long count();

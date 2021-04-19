@@ -2,8 +2,8 @@ package ru.yauroff.test.mainproject.view;
 
 import ru.yauroff.test.mainproject.controller.PostController;
 import ru.yauroff.test.mainproject.model.Post;
-import ru.yauroff.test.mainproject.repository.JsonPostRepository;
 import ru.yauroff.test.mainproject.repository.PostRepository;
+import ru.yauroff.test.mainproject.repository.impl.JsonPostRepository;
 
 import java.util.List;
 import java.util.Scanner;
@@ -14,10 +14,14 @@ import java.util.Scanner;
 public class PostView extends AbstractActionView<Post> implements View {
     private PostController controller;
     private PostRepository repository;
+    // TOOD: Настройки перенести в properties
+    private String pathToJson = System.getProperty("user.dir") + System.getProperty("file" + ".separator") + "post" +
+            ".json";
+
 
     public PostView() {
         super("post");
-        repository = new JsonPostRepository("D:\\post.json");
+        repository = new JsonPostRepository(pathToJson);
         controller = new PostController(repository);
     }
 
