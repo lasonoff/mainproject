@@ -1,11 +1,17 @@
 package ru.yauroff.test.mainproject.model;
 
-/**
- * Created by ayaurov on 15.04.2021.
- */
 public class Region {
     private Long id;
     private String name;
+
+    public Region(Long id) {
+        this.id = id;
+    }
+
+    public Region(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public Long getId() {
         return id;

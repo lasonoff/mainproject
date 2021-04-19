@@ -10,6 +10,7 @@ public class MainView extends AbstractView implements View {
 
 
     public MainView() {
+        views.put("3", new RegionView());
         views.put("2", new PostView());
     }
 

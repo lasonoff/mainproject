@@ -55,6 +55,35 @@ abstract class JsonRepository<T, ID> {
         return objects.stream().filter(x -> id.equals(getId(x))).findFirst();
     }
 
-    abstract protected ID getId(T obj);
+    public T update(T entity) {
+        List<T> objects = jsonDM.readAll();
+        T obj = objects.stream().filter(x -> getId(entity).equals(getId(x))).findFirst().orElse(null);
+        if (obj != null) {
+            updateEntity(obj, entity);
+            jsonDM.writeAll(objects);
+            return obj;
+        }
+        return null;
+    }
+
+    public List<T> updateAll(List<T> entities) {
+        return entities.stream().map(x -> update(x)).filter(Objects::nonNull).collect(Collectors.toList());
+    }
+
+    /**
+     * Возваращает первичный ключ переданного объекта.
+     *
+     * @param entity
+     * @return ID - первичный ключ объекта.
+     */
+    abstract protected ID getId(T entity);
+
+    /**
+     * Обновляет состояние объекта используя другой.
+     *
+     * @param entityForUpdate - объект, который необходимо обновить;
+     * @param entity          - объект, состояние которого используем для обновления.
+     */
+    abstract protected void updateEntity(T entityForUpdate, T entity);
 
 }
