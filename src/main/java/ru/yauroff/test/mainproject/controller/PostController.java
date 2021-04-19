@@ -2,21 +2,18 @@ package ru.yauroff.test.mainproject.controller;
 
 import ru.yauroff.test.mainproject.model.Post;
 import ru.yauroff.test.mainproject.repository.PostRepository;
+import ru.yauroff.test.mainproject.repository.impl.ObjectRepository;
 
 import java.util.Date;
-import java.util.UUID;
 
 
 public class PostController {
-    PostRepository repository;
-
-    public PostController(PostRepository repository) {
-        this.repository = repository;
-    }
+    PostRepository repository = ObjectRepository.getInstance().getPostRepository();
+    ;
 
     public void create(String content) {
         Date date = new Date();
-        Post post = new Post(UUID.randomUUID().getMostSignificantBits(), content, date, date);
+        Post post = new Post(new Date().getTime(), content, date, date);
         repository.create(post);
     }
 

@@ -2,9 +2,6 @@ package ru.yauroff.test.mainproject.model;
 
 import java.util.Date;
 
-/**
- * Created by ayaurov on 15.04.2021.
- */
 public class Post {
     private Long id;
     private String content;

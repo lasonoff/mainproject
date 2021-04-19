@@ -1,26 +1,27 @@
 package ru.yauroff.test.mainproject.view;
 
 import ru.yauroff.test.mainproject.controller.UserController;
+import ru.yauroff.test.mainproject.model.Post;
+import ru.yauroff.test.mainproject.model.Region;
+import ru.yauroff.test.mainproject.model.Role;
 import ru.yauroff.test.mainproject.model.User;
+import ru.yauroff.test.mainproject.repository.PostRepository;
+import ru.yauroff.test.mainproject.repository.RegionRepository;
 import ru.yauroff.test.mainproject.repository.UserRepository;
-import ru.yauroff.test.mainproject.repository.impl.JsonUserRepository;
+import ru.yauroff.test.mainproject.repository.impl.ObjectRepository;
 
-import java.util.List;
-import java.util.Scanner;
-
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class UserView extends AbstractActionView<User> implements View {
-    private UserController controller;
-    private UserRepository repository;
-    // TOOD: Настройки перенести в properties
-    private String pathToJson = System.getProperty("user.dir") + System.getProperty("file" + ".separator") + "user" +
-            ".json";
+    private UserController controller = new UserController();
+    private UserRepository repository = ObjectRepository.getInstance().getUserRepository();
+    private RegionRepository regionRepository = ObjectRepository.getInstance().getRegionRepository();
+    private PostRepository postRepository = ObjectRepository.getInstance().getPostRepository();
 
 
     public UserView() {
         super("user");
-        repository = new JsonUserRepository(pathToJson);
-        controller = new UserController(repository);
     }
 
     @Override
@@ -30,29 +31,119 @@ public class UserView extends AbstractActionView<User> implements View {
 
     @Override
     protected void create() {
-        Scanner in = new Scanner(System.in);
-        System.out.println("\n");
-        System.out.print("Input FirstName:");
-        String firstName = in.nextLine();
-        System.out.print("Input LastName:");
-        String lastName = in.nextLine();
-        System.out.print("Input RegionId:");
-        String regionId = in.nextLine();
-        System.out.print("Input Role (0- ADMIN, 1- MODERATOR, 2- USER:");
-        //Role role = new Role(in.nextLine());
-        //controller.create(content);
-        System.out.println("\n");
-        System.out.println("Created: Ok!");
+        String firstName = getFirstName();
+        String lastName = getLastName();
+        Region region = getRegion();
+        if (region == null) {
+            return;
+        }
+        List<Post> posts = getPosts();
+        if (posts == null) {
+            return;
+        }
+        Role role = getRole();
+        if (role != null) {
+            controller.create(firstName, lastName, region, posts, role);
+            System.out.println("Created: Ok!");
+        }
     }
 
     @Override
     protected void update() {
+        System.out.print("Input ID:");
+        Scanner in1 = new Scanner(System.in);
+        String id = in1.nextLine();
+        Long idLong = Long.valueOf(id);
+        User obj = repository.findById(idLong).orElse(null);
+        if (obj == null) {
+            System.out.println("Error: not found user with id = " + id);
+            return;
+        }
+        printObject(obj);
+        String firstName = getFirstName();
+        String lastName = getLastName();
+        Region region = getRegion();
+        if (region == null) {
+            return;
+        }
+        List<Post> posts = getPosts();
+        if (posts == null) {
+            return;
+        }
+        Role role = getRole();
+        if (role != null) {
+            controller.update(obj, firstName, lastName, region, posts, role);
+            System.out.println("Update: Ok!");
+        }
+    }
 
+    private String getFirstName() {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Input FirstName:");
+        return in.nextLine();
+    }
+
+    private String getLastName() {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Input LastName:");
+        return in.nextLine();
+    }
+
+    private Region getRegion() {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Input RegionId:");
+        Long regionId;
+        try {
+            regionId = Long.valueOf(in.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Error input RegionId!");
+            return null;
+        }
+        Optional<Region> region = regionRepository.findById(regionId);
+        if (!region.isPresent()) {
+            System.out.println("Not found Region with id = " + regionId);
+            return null;
+        }
+        return region.get();
+    }
+
+    private List<Post> getPosts() {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Input Post ids with ',' :");
+        String postIds = in.nextLine();
+        if (postIds.isEmpty()) {
+            return new ArrayList<>();
+        }
+        List<Long> ids;
+        try {
+            ids = Arrays.stream(postIds.split(",")).map(Long::valueOf).collect(Collectors.toList());
+        } catch (NumberFormatException e) {
+            System.out.println("Error input Post ids!");
+            return null;
+        }
+        return postRepository.findAllById(ids);
+    }
+
+    private Role getRole() {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Input Role (ADMIN, MODERATOR, USER):");
+        Role role;
+        try {
+            return Role.valueOf(in.nextLine().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error input Role!");
+            return null;
+        }
     }
 
     @Override
     protected void delete() {
-
+        System.out.print("Input ID object for delete:");
+        Scanner in = new Scanner(System.in);
+        String id = in.nextLine();
+        Long idLong = Long.valueOf(id);
+        controller.delete(idLong);
+        System.out.println("Delete: Ok!");
     }
 
     @Override

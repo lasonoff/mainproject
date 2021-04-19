@@ -1,25 +1,36 @@
 package ru.yauroff.test.mainproject.controller;
 
+import ru.yauroff.test.mainproject.model.Post;
+import ru.yauroff.test.mainproject.model.Region;
+import ru.yauroff.test.mainproject.model.Role;
 import ru.yauroff.test.mainproject.model.User;
 import ru.yauroff.test.mainproject.repository.UserRepository;
+import ru.yauroff.test.mainproject.repository.impl.ObjectRepository;
 
-import java.util.UUID;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserController {
-    UserRepository repository;
+    UserRepository repository = ObjectRepository.getInstance().getUserRepository();
 
-    public UserController(UserRepository repository) {
-        this.repository = repository;
-    }
-
-    public void create(String name) {
-        User user = new User(UUID.randomUUID().getMostSignificantBits());
+    public void create(String firstName, String lastName, Region region, List<Post> posts, Role role) {
+        User user = new User(new Date().getTime());
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setRole(role);
+        user.setRegionId(region.getId());
+        user.setPostsId(posts.stream().map(Post::getId).collect(Collectors.toList()));
         repository.create(user);
     }
 
-    public void update(User region, String name) {
-        //region.setName(name);
-        repository.update(region);
+    public void update(User user, String firstName, String lastName, Region region, List<Post> posts, Role role) {
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setRole(role);
+        user.setRegionId(region.getId());
+        user.setPostsId(posts.stream().map(Post::getId).collect(Collectors.toList()));
+        repository.update(user);
     }
 
     public void delete(Long id) {

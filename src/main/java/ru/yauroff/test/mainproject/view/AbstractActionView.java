@@ -3,9 +3,7 @@ package ru.yauroff.test.mainproject.view;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- * Created by ayaurov on 16.04.2021.
- */
+
 public abstract class AbstractActionView<T> extends AbstractView {
     private String nameObject;
 
@@ -50,15 +48,12 @@ public abstract class AbstractActionView<T> extends AbstractView {
 
     protected void showCount() {
         System.out.println(nameObject + " count = " + getCount());
-        System.out.println("\n");
     }
 
     protected void showAll() {
-        System.out.println("\n");
         System.out.println("All " + nameObject);
         List<T> allObjects = findAll();
         allObjects.forEach(x -> printObject(x));
-        System.out.println("\n");
     }
 
     abstract protected void printObject(T object);
@@ -70,13 +65,11 @@ public abstract class AbstractActionView<T> extends AbstractView {
     abstract protected void delete();
 
     protected void deleteAll() {
-        System.out.println("\n");
         System.out.print("Delete all " + nameObject + " objects: Y/N?");
         Scanner in = new Scanner(System.in);
         String action = in.nextLine();
         if ("Y".equals(action) || "y".equals(action)) {
             deleteAllAction();
-            System.out.println("\n");
             System.out.println("Deleted all: Ok!");
         }
     }

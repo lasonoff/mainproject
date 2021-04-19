@@ -2,19 +2,16 @@ package ru.yauroff.test.mainproject.controller;
 
 import ru.yauroff.test.mainproject.model.Region;
 import ru.yauroff.test.mainproject.repository.RegionRepository;
+import ru.yauroff.test.mainproject.repository.impl.ObjectRepository;
 
-import java.util.UUID;
+import java.util.Date;
 
 
 public class RegionController {
-    RegionRepository repository;
-
-    public RegionController(RegionRepository repository) {
-        this.repository = repository;
-    }
+    RegionRepository repository = ObjectRepository.getInstance().getRegionRepository();
 
     public void create(String name) {
-        Region region = new Region(UUID.randomUUID().getMostSignificantBits(), name);
+        Region region = new Region(new Date().getTime(), name);
         repository.create(region);
     }
 

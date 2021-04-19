@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Класс предоставляет возможность чтения/записи обюъектов в json.
+ * Класс предоставляет возможность чтения/записи объектов в json.
  */
 public class JsonFileDataManager<T> {
     private String filePath;
@@ -28,7 +28,7 @@ public class JsonFileDataManager<T> {
         InputStream inputStream;
         try {
             inputStream = new FileInputStream(filePath);
-        } catch ( FileNotFoundException e ) {
+        } catch (FileNotFoundException e) {
             return res;
         }
         InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
@@ -36,7 +36,7 @@ public class JsonFileDataManager<T> {
             Type typeT = TypeToken.getParameterized(List.class, type).getType();
             res = gson.fromJson(streamReader, typeT);
             streamReader.close();
-        } catch ( IOException e ) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return res;
@@ -53,7 +53,7 @@ public class JsonFileDataManager<T> {
         OutputStream outputStream = null;
         try {
             outputStream = new FileOutputStream(filePath);
-        } catch ( FileNotFoundException e ) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
             return;
         }
@@ -62,7 +62,7 @@ public class JsonFileDataManager<T> {
         try {
             gson.toJson(objects, objects.getClass(), bufferedWriter);
             bufferedWriter.close();
-        } catch ( IOException e ) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

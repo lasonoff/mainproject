@@ -5,9 +5,11 @@ import ru.yauroff.test.mainproject.repository.RegionRepository;
 
 
 public class JsonRegionRepository extends JsonRepository<Region, Long> implements RegionRepository {
+    static String pathToJson = System.getProperty("user.dir") + System.getProperty("file" + ".separator") + "region"
+            + ".json";
 
-    public JsonRegionRepository(String filePath) {
-        super(filePath, Region.class);
+    public JsonRegionRepository() {
+        super(pathToJson, Region.class);
     }
 
     @Override
