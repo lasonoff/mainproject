@@ -12,7 +12,7 @@ public abstract class AbstractActionView<T> extends AbstractView {
     }
 
     public void show() {
-        System.out.println("==== " + nameObject + "\n");
+        System.out.println("\n==== " + nameObject + "\n");
         System.out.println("0 - Previous");
         System.out.println("1 - Count");
         System.out.println("2 - Show all");
