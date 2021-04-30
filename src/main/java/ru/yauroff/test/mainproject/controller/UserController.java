@@ -1,13 +1,10 @@
 package ru.yauroff.test.mainproject.controller;
 
-import ru.yauroff.test.mainproject.model.Post;
 import ru.yauroff.test.mainproject.model.Region;
 import ru.yauroff.test.mainproject.model.Role;
 import ru.yauroff.test.mainproject.model.User;
 import ru.yauroff.test.mainproject.repository.UserRepository;
 import ru.yauroff.test.mainproject.repository.impl.ObjectRepository;
-
-import java.util.List;
 
 public class UserController {
     UserRepository repository = ObjectRepository.getInstance().getUserRepository();

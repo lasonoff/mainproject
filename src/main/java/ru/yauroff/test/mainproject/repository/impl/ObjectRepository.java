@@ -11,7 +11,7 @@ public class ObjectRepository {
     private UserRepository userRepository;
 
     private ObjectRepository() {
-        postRepository = new JsonPostRepository();
+        postRepository = new DBPostRepository();
         regionRepository = new DBRegionRepository();
         userRepository = new DBUserRepository();
     }
