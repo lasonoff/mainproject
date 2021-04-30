@@ -9,7 +9,6 @@ import java.util.Date;
 
 public class PostController {
     PostRepository repository = ObjectRepository.getInstance().getPostRepository();
-    ;
 
     public void create(String content) {
         Date date = new Date();

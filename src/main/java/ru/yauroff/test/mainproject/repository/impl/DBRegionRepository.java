@@ -47,8 +47,8 @@ public class DBRegionRepository extends DBRepository<Region, Long> implements Re
 
     @Override
     protected int updateStatement(PreparedStatement statement, int startWith, Region entity) throws SQLException {
-        statement.setString(startWith + 1, entity.getName());
-        return startWith + 1;
+        statement.setString(startWith, entity.getName());
+        return startWith;
     }
 
     @Override

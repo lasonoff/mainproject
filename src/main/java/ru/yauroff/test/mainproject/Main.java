@@ -11,6 +11,7 @@ public class Main {
         PropertiesManager.getInstance();
         // Создание структуры базы
         DbCreator.createTables();
+        // Запуск приложения
         MainView mv = new MainView();
         mv.show();
     }
