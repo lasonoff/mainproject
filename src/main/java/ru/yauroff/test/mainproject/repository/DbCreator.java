@@ -1,10 +1,15 @@
 package ru.yauroff.test.mainproject.repository;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DbCreator {
+    private static final Logger logger = LogManager.getLogger(DbCreator.class);
+
     private static String createRegionSql = "CREATE TABLE IF NOT EXISTS `region` (" +
             "    `id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT," +
             "    `name` CHAR(60) NOT NULL," +
@@ -46,13 +51,12 @@ public class DbCreator {
                 connection.commit();
             } catch (SQLException e) {
                 connection.rollback();
-                System.out.println("Ошибка при создании структуры базы данных!");
-                e.printStackTrace();
+                logger.error("Ошибка при создании структуры базы данных!", e);
                 System.exit(0);
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Ошибка при получении соеденения с БД", e);
             System.exit(0);
         }
     }
