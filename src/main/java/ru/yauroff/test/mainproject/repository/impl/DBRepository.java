@@ -100,7 +100,7 @@ abstract public class DBRepository<T, ID> {
             setIdIntoStatement(statement, endUpdNum + 1, getIdEntity(entity));
             statement.execute();
         } catch ( SQLException e ) {
-            logger.error("Ошибка при создание нового объекта в таблице " + getMainTableName(), e);
+            logger.error("Ошибка при обновлении объекта в таблице " + getMainTableName(), e);
             System.exit(0);
         }
         return entity;

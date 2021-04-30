@@ -17,7 +17,6 @@ public class UserView extends AbstractActionView<User> implements View {
     private UserController controller = new UserController();
     private UserRepository repository = ObjectRepository.getInstance().getUserRepository();
     private RegionRepository regionRepository = ObjectRepository.getInstance().getRegionRepository();
-    private PostRepository postRepository = ObjectRepository.getInstance().getPostRepository();
 
 
     public UserView() {
@@ -37,13 +36,9 @@ public class UserView extends AbstractActionView<User> implements View {
         if (region == null) {
             return;
         }
-        List<Post> posts = getPosts();
-        if (posts == null) {
-            return;
-        }
         Role role = getRole();
         if (role != null) {
-            controller.create(firstName, lastName, region, posts, role);
+            controller.create(firstName, lastName, region, role);
             System.out.println("Created: Ok!");
         }
     }
@@ -66,13 +61,9 @@ public class UserView extends AbstractActionView<User> implements View {
         if (region == null) {
             return;
         }
-        List<Post> posts = getPosts();
-        if (posts == null) {
-            return;
-        }
         Role role = getRole();
         if (role != null) {
-            controller.update(obj, firstName, lastName, region, posts, role);
+            controller.update(obj, firstName, lastName, region, role);
             System.out.println("Update: Ok!");
         }
     }
@@ -105,23 +96,6 @@ public class UserView extends AbstractActionView<User> implements View {
             return null;
         }
         return region.get();
-    }
-
-    private List<Post> getPosts() {
-        Scanner in = new Scanner(System.in);
-        System.out.print("Input Post ids with ',' :");
-        String postIds = in.nextLine();
-        if (postIds.isEmpty()) {
-            return new ArrayList<>();
-        }
-        List<Long> ids;
-        try {
-            ids = Arrays.stream(postIds.split(",")).map(Long::valueOf).collect(Collectors.toList());
-        } catch (NumberFormatException e) {
-            System.out.println("Error input Post ids!");
-            return null;
-        }
-        return postRepository.findAllById(ids);
     }
 
     private Role getRole() {

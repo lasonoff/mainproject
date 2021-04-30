@@ -15,8 +15,8 @@ public class JsonUserRepository extends JsonRepository<User, Long> implements Us
 
     private void injectObjects(User user) {
         if (user != null) {
-            List<Post> posts = ObjectRepository.getInstance().getPostRepository().findAllById(user.getPostsId());
-            user.setPosts(posts);
+            /*List<Post> posts = ObjectRepository.getInstance().getPostRepository().findAllById(user.getPostsId());
+            user.setPosts(posts);*/
             Region region = ObjectRepository.getInstance().getRegionRepository().findById(user.getRegionId()).orElse(null);
             user.setRegion(region);
         }
@@ -52,7 +52,7 @@ public class JsonUserRepository extends JsonRepository<User, Long> implements Us
     protected void updateEntity(User entityForUpdate, User entity) {
         entityForUpdate.setFirstName(entity.getFirstName());
         entityForUpdate.setLastName(entity.getLastName());
-        entityForUpdate.setPostsId(entity.getPostsId());
+        //entityForUpdate.setPostsId(entity.getPostsId());
         entityForUpdate.setRegionId(entity.getRegionId());
         entityForUpdate.setRole(entity.getRole());
     }
