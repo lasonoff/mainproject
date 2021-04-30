@@ -5,13 +5,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DbCreator {
-    private static String createRegionSql = "CREATE TABLE `region` (" +
+    private static String createRegionSql = "CREATE TABLE IF NOT EXISTS `region` (" +
             "    `id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT," +
             "    `name` CHAR(60) NOT NULL," +
             "    PRIMARY KEY (`id`)" +
             ");";
 
-    private static String createUserSql = "CREATE TABLE IF NOT EXISTS user (" +
+    private static String createUserSql = "CREATE TABLE IF NOT EXISTS `user` (" +
             "    `id` SMALLINT UNSIGNED AUTO_INCREMENT NOT NULL," +
             "    `firstName` CHAR(60) NOT NULL," +
             "    `lastName` CHAR(60) NOT NULL," +

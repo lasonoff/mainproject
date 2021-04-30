@@ -12,7 +12,7 @@ public class ObjectRepository {
 
     private ObjectRepository() {
         postRepository = new JsonPostRepository();
-        regionRepository = new JsonRegionRepository();
+        regionRepository = new DBRegionRepository();
         userRepository = new JsonUserRepository();
     }
 
