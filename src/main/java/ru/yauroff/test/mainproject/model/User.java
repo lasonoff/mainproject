@@ -1,7 +1,5 @@
 package ru.yauroff.test.mainproject.model;
 
-import java.util.List;
-
 public class User {
     private Long id;
     private String firstName;

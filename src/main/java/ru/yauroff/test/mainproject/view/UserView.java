@@ -1,17 +1,16 @@
 package ru.yauroff.test.mainproject.view;
 
 import ru.yauroff.test.mainproject.controller.UserController;
-import ru.yauroff.test.mainproject.model.Post;
 import ru.yauroff.test.mainproject.model.Region;
 import ru.yauroff.test.mainproject.model.Role;
 import ru.yauroff.test.mainproject.model.User;
-import ru.yauroff.test.mainproject.repository.PostRepository;
 import ru.yauroff.test.mainproject.repository.RegionRepository;
 import ru.yauroff.test.mainproject.repository.UserRepository;
 import ru.yauroff.test.mainproject.repository.impl.ObjectRepository;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Optional;
+import java.util.Scanner;
 
 public class UserView extends AbstractActionView<User> implements View {
     private UserController controller = new UserController();

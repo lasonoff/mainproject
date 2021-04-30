@@ -29,7 +29,7 @@ abstract public class DBRepository<T, ID> {
                 rs.next();
                 res = rs.getLong("count");
             }
-        } catch ( SQLException e ) {
+        } catch (SQLException e) {
             logger.error("Ошибка при получении кол- ва данных из " + getMainTableName(), e);
             System.exit(0);
         }
@@ -42,7 +42,7 @@ abstract public class DBRepository<T, ID> {
                 .prepareStatement(sql)) {
             updateStatement(statement, 1, entity);
             statement.execute();
-        } catch ( SQLException e ) {
+        } catch (SQLException e) {
             logger.error("Ошибка при создание нового объекта в таблице " + getMainTableName(), e);
             System.exit(0);
         }
@@ -60,7 +60,7 @@ abstract public class DBRepository<T, ID> {
                     res.add(entity);
                 }
             }
-        } catch ( SQLException e ) {
+        } catch (SQLException e) {
             logger.error("Ошибка при получении всех данных из " + getMainTableName(), e);
             System.exit(0);
         }
@@ -85,7 +85,7 @@ abstract public class DBRepository<T, ID> {
                     return Optional.of(entity);
                 }
             }
-        } catch ( SQLException e ) {
+        } catch (SQLException e) {
             logger.error("Ошибка при получении объекта по id из " + getMainTableName(), e);
             System.exit(0);
         }
@@ -99,7 +99,7 @@ abstract public class DBRepository<T, ID> {
             int endUpdNum = updateStatement(statement, 1, entity);
             setIdIntoStatement(statement, endUpdNum + 1, getIdEntity(entity));
             statement.execute();
-        } catch ( SQLException e ) {
+        } catch (SQLException e) {
             logger.error("Ошибка при обновлении объекта в таблице " + getMainTableName(), e);
             System.exit(0);
         }
@@ -115,7 +115,7 @@ abstract public class DBRepository<T, ID> {
         try (Connection connection = ConnectionFactory.getConnection(); Statement statement = connection
                 .createStatement()) {
             statement.executeUpdate(sql);
-        } catch ( SQLException e ) {
+        } catch (SQLException e) {
             logger.error("Ошибка при удалении всех данных из " + getMainTableName(), e);
             System.exit(0);
         }
@@ -131,7 +131,7 @@ abstract public class DBRepository<T, ID> {
                 .prepareStatement(sql)) {
             setIdIntoStatement(statement, 1, id);
             statement.execute();
-        } catch ( SQLException e ) {
+        } catch (SQLException e) {
             logger.error("Ошибка при удалении объекта по id из таблицы " + getMainTableName(), e);
             System.exit(0);
         }
