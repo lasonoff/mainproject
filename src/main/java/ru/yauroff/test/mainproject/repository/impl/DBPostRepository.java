@@ -68,12 +68,12 @@ public class DBPostRepository extends DBRepository<Post, Long> implements PostRe
 
     @Override
     public List<Post> findAll() {
-        return super.findAll().stream().peek(x -> injectObjects(x)).collect(Collectors.toList());
+        return super.findAll().stream().peek(post -> injectObjects(post)).collect(Collectors.toList());
     }
 
     @Override
     public List<Post> findAllById(List<Long> ids) {
-        return super.findAllById(ids).stream().peek(x -> injectObjects(x)).collect(Collectors.toList());
+        return super.findAllById(ids).stream().peek(post-> injectObjects(post)).collect(Collectors.toList());
     }
 
     private void injectObjects(Post post) {

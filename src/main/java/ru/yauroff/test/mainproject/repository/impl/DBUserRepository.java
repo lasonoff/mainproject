@@ -70,12 +70,12 @@ public class DBUserRepository extends DBRepository<User, Long> implements UserRe
 
     @Override
     public List<User> findAll() {
-        return super.findAll().stream().peek(x -> injectObjects(x)).collect(Collectors.toList());
+        return super.findAll().stream().peek(user -> injectObjects(user)).collect(Collectors.toList());
     }
 
     @Override
     public List<User> findAllById(List<Long> ids) {
-        return super.findAllById(ids).stream().peek(x -> injectObjects(x)).collect(Collectors.toList());
+        return super.findAllById(ids).stream().peek(user -> injectObjects(user)).collect(Collectors.toList());
     }
 
     private void injectObjects(User user) {

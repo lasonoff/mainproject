@@ -107,7 +107,7 @@ abstract public class DBRepository<T, ID> {
     }
 
     public List<T> updateAll(List<T> entities) {
-        return entities.stream().map(x -> update(x)).filter(Objects::nonNull).collect(Collectors.toList());
+        return entities.stream().map(entity -> update(entity)).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     public void deleteAll() {
