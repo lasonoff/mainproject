@@ -22,7 +22,7 @@ abstract public class DBRepository<T, ID> {
     public long count() {
         String sql = getCountSql();
         long res = 0;
-        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement statement = connection
+        try (PreparedStatement statement = ConnectionFactory.getInstance().getConnection()
                 .prepareStatement(sql)) {
 
             try (ResultSet rs = statement.executeQuery()) {
@@ -31,27 +31,25 @@ abstract public class DBRepository<T, ID> {
             }
         } catch (SQLException e) {
             logger.error("Ошибка при получении кол- ва данных из " + getMainTableName(), e);
-            System.exit(0);
         }
         return res;
     }
 
     public void create(T entity) {
         String sql = getCreateSql();
-        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement statement = connection
+        try (PreparedStatement statement = ConnectionFactory.getInstance().getConnection()
                 .prepareStatement(sql)) {
             updateStatement(statement, 1, entity);
             statement.execute();
         } catch (SQLException e) {
             logger.error("Ошибка при создание нового объекта в таблице " + getMainTableName(), e);
-            System.exit(0);
         }
     }
 
     public List<T> findAll() {
         String sql = getFindAllSql();
         List<T> res = new ArrayList<>();
-        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement statement = connection
+        try (PreparedStatement statement = ConnectionFactory.getInstance().getConnection()
                 .prepareStatement(sql)) {
 
             try (ResultSet rs = statement.executeQuery()) {
@@ -62,7 +60,6 @@ abstract public class DBRepository<T, ID> {
             }
         } catch (SQLException e) {
             logger.error("Ошибка при получении всех данных из " + getMainTableName(), e);
-            System.exit(0);
         }
         return res;
     }
@@ -75,7 +72,7 @@ abstract public class DBRepository<T, ID> {
 
     public Optional<T> findById(ID id) {
         String sql = getFindByIdSql();
-        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement statement = connection
+        try (PreparedStatement statement = ConnectionFactory.getInstance().getConnection()
                 .prepareStatement(sql)) {
 
             setIdIntoStatement(statement, 1, id);
@@ -87,21 +84,19 @@ abstract public class DBRepository<T, ID> {
             }
         } catch (SQLException e) {
             logger.error("Ошибка при получении объекта по id из " + getMainTableName(), e);
-            System.exit(0);
         }
         return Optional.of(null);
     }
 
     public T update(T entity) {
         String sql = getUpdateSql();
-        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement statement = connection
+        try (PreparedStatement statement = ConnectionFactory.getInstance().getConnection()
                 .prepareStatement(sql)) {
             int endUpdNum = updateStatement(statement, 1, entity);
             setIdIntoStatement(statement, endUpdNum + 1, getIdEntity(entity));
             statement.execute();
         } catch (SQLException e) {
             logger.error("Ошибка при обновлении объекта в таблице " + getMainTableName(), e);
-            System.exit(0);
         }
         return entity;
     }
@@ -112,12 +107,11 @@ abstract public class DBRepository<T, ID> {
 
     public void deleteAll() {
         String sql = getDeleteAllSql();
-        try (Connection connection = ConnectionFactory.getConnection(); Statement statement = connection
+        try (Statement statement = ConnectionFactory.getInstance().getConnection()
                 .createStatement()) {
             statement.executeUpdate(sql);
         } catch (SQLException e) {
             logger.error("Ошибка при удалении всех данных из " + getMainTableName(), e);
-            System.exit(0);
         }
     }
 
@@ -127,13 +121,12 @@ abstract public class DBRepository<T, ID> {
 
     public void deleteById(ID id) {
         String sql = getDeleteByIdSql();
-        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement statement = connection
+        try (PreparedStatement statement = ConnectionFactory.getInstance().getConnection()
                 .prepareStatement(sql)) {
             setIdIntoStatement(statement, 1, id);
             statement.execute();
         } catch (SQLException e) {
             logger.error("Ошибка при удалении объекта по id из таблицы " + getMainTableName(), e);
-            System.exit(0);
         }
     }
 
