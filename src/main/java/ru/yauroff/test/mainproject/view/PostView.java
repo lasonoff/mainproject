@@ -2,15 +2,19 @@ package ru.yauroff.test.mainproject.view;
 
 import ru.yauroff.test.mainproject.controller.PostController;
 import ru.yauroff.test.mainproject.model.Post;
+import ru.yauroff.test.mainproject.model.User;
 import ru.yauroff.test.mainproject.repository.PostRepository;
+import ru.yauroff.test.mainproject.repository.UserRepository;
 import ru.yauroff.test.mainproject.repository.impl.ObjectRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class PostView extends AbstractActionView<Post> implements View {
     private PostController controller = new PostController();
     private PostRepository repository = ObjectRepository.getInstance().getPostRepository();
+    private UserRepository userRepository = ObjectRepository.getInstance().getUserRepository();
 
 
     public PostView() {
@@ -27,8 +31,11 @@ public class PostView extends AbstractActionView<Post> implements View {
         System.out.print("Input Content:");
         Scanner in = new Scanner(System.in);
         String content = in.nextLine();
-        controller.create(content);
-        System.out.println("Created: Ok!");
+        User user = getUser();
+        if (user != null) {
+            controller.create(content, user);
+            System.out.println("Created: Ok!");
+        }
     }
 
     @Override
@@ -58,6 +65,24 @@ public class PostView extends AbstractActionView<Post> implements View {
         Long idLong = Long.valueOf(id);
         controller.delete(idLong);
         System.out.println("Delete: Ok!");
+    }
+
+    private User getUser() {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Input UserId:");
+        Long userId;
+        try {
+            userId = Long.valueOf(in.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Error input UserId!");
+            return null;
+        }
+        Optional<User> user = userRepository.findById(userId);
+        if (!user.isPresent()) {
+            System.out.println("Not found User with id = " + userId);
+            return null;
+        }
+        return user.get();
     }
 
     @Override

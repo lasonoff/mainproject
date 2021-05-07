@@ -1,0 +1,67 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet author="lasonoff" id="1">
+        <createTable tableName="post">
+            <column autoIncrement="true" name="id" type="SMALLINT UNSIGNED">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="content" type="CHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="userId" type="SMALLINT UNSIGNED">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated" type="date">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="lasonoff" id="2">
+        <createTable tableName="region">
+            <column autoIncrement="true" name="id" type="SMALLINT UNSIGNED">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="CHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="lasonoff" id="3">
+        <createTable tableName="user">
+            <column autoIncrement="true" name="id" type="SMALLINT UNSIGNED">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="firstName" type="CHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastName" type="CHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="CHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="regionId" type="SMALLINT UNSIGNED">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="lasonoff" id="4">
+        <createIndex indexName="fk_post_user" tableName="post">
+            <column name="userId"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lasonoff" id="5">
+        <createIndex indexName="fk_user_region" tableName="user">
+            <column name="regionId"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lasonoff" id="6">
+        <addForeignKeyConstraint baseColumnNames="userId" baseTableName="post" constraintName="fk_post_user" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="lasonoff" id="7">
+        <addForeignKeyConstraint baseColumnNames="regionId" baseTableName="user" constraintName="fk_user_region" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="region" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

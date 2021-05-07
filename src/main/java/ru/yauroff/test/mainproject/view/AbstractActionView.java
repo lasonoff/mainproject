@@ -53,7 +53,7 @@ public abstract class AbstractActionView<T> extends AbstractView {
     protected void showAll() {
         System.out.println("All " + nameObject);
         List<T> allObjects = findAll();
-        allObjects.forEach(x -> printObject(x));
+        allObjects.forEach(obj -> printObject(obj));
     }
 
     abstract protected void printObject(T object);
