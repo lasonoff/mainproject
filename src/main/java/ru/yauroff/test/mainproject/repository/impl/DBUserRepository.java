@@ -8,8 +8,6 @@ import ru.yauroff.test.mainproject.repository.UserRepository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class DBUserRepository extends DBRepository<User, Long> implements UserRepository {
 
@@ -19,8 +17,16 @@ public class DBUserRepository extends DBRepository<User, Long> implements UserRe
     }
 
     @Override
+    protected String getFindAllSql() {
+        return "SELECT user.id AS userId, user.firstName, user.lastName, user.role, user.regionId, " +
+                "region.name AS regionName FROM user LEFT OUTER JOIN region ON region.id =  user.regionId";
+    }
+
+    @Override
     protected String getFindByIdSql() {
-        return "SELECT * FROM user WHERE ID = ?";
+        return "SELECT user.id AS userId, user.firstName, user.lastName, user.role, user.regionId, " +
+                "region.name AS regionName FROM user LEFT OUTER JOIN region ON region.id =  user.regionId " +
+                "WHERE user.id =  ?";
     }
 
     @Override
@@ -55,33 +61,20 @@ public class DBUserRepository extends DBRepository<User, Long> implements UserRe
     @Override
     protected User getNewEntity(ResultSet rs) throws SQLException {
         User user = new User();
-        user.setId(rs.getLong("id"));
+        user.setId(rs.getLong("userId"));
         user.setFirstName(rs.getString("firstName"));
         user.setLastName(rs.getString("lastName"));
         user.setRegionId(rs.getLong("regionId"));
         user.setRole(Role.valueOf(rs.getString("role")));
+        if (user.getRegionId() != null) {
+            Region region = new Region(rs.getLong("regionId"), rs.getString("regionName"));
+            user.setRegion(region);
+        }
         return user;
     }
 
     @Override
     protected Long getIdEntity(User entity) {
         return entity.getId();
-    }
-
-    @Override
-    public List<User> findAll() {
-        return super.findAll().stream().peek(user -> injectObjects(user)).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<User> findAllById(List<Long> ids) {
-        return super.findAllById(ids).stream().peek(user -> injectObjects(user)).collect(Collectors.toList());
-    }
-
-    private void injectObjects(User user) {
-        if (user != null) {
-            Region region = ObjectRepository.getInstance().getRegionRepository().findById(user.getRegionId()).orElse(null);
-            user.setRegion(region);
-        }
     }
 }

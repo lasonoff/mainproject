@@ -1,14 +1,14 @@
 package ru.yauroff.test.mainproject.repository.impl;
 
 import ru.yauroff.test.mainproject.model.Post;
+import ru.yauroff.test.mainproject.model.Region;
+import ru.yauroff.test.mainproject.model.Role;
 import ru.yauroff.test.mainproject.model.User;
 import ru.yauroff.test.mainproject.repository.PostRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class DBPostRepository extends DBRepository<Post, Long> implements PostRepository {
     @Override
@@ -17,8 +17,22 @@ public class DBPostRepository extends DBRepository<Post, Long> implements PostRe
     }
 
     @Override
+    protected String getFindAllSql() {
+        return "SELECT post.id AS postId,  post.content, post.userId, post.created, post.updated," +
+                "user.firstName, user.lastName, user.role, user.regionId, region.name AS regionName " +
+                "FROM post " +
+                "LEFT OUTER JOIN user ON user.id =  post.userId " +
+                "LEFT OUTER JOIN region ON region.id =  user.regionId ";
+    }
+
+    @Override
     protected String getFindByIdSql() {
-        return "SELECT * FROM post WHERE ID = ?";
+        return "SELECT post.id AS postId,  post.content, post.userId, post.created, post.updated," +
+                "user.firstName, user.lastName, user.role, user.regionId, region.name AS regionName " +
+                "FROM post " +
+                "LEFT OUTER JOIN user ON user.id =  post.userId " +
+                "LEFT OUTER JOIN region ON region.id =  user.regionId " +
+                "WHERE post.id = ?";
     }
 
     @Override
@@ -53,33 +67,27 @@ public class DBPostRepository extends DBRepository<Post, Long> implements PostRe
     @Override
     protected Post getNewEntity(ResultSet rs) throws SQLException {
         Post post = new Post();
-        post.setId(rs.getLong("id"));
+        post.setId(rs.getLong("postId"));
         post.setContent(rs.getString("content"));
         post.setCreated(rs.getDate("created"));
         post.setUpdated(rs.getDate("updated"));
         post.setUserId(rs.getLong("userId"));
+        if (post.getUserId() != null) {
+            User user = new User();
+            user.setFirstName(rs.getString("firstName"));
+            user.setLastName(rs.getString("lastName"));
+            user.setRegionId(rs.getLong("regionId"));
+            user.setRole(Role.valueOf(rs.getString("role")));
+            if (user.getRegionId() != null) {
+                Region region = new Region(rs.getLong("regionId"), rs.getString("regionName"));
+                user.setRegion(region);
+            }
+        }
         return post;
     }
 
     @Override
     protected Long getIdEntity(Post entity) {
         return entity.getId();
-    }
-
-    @Override
-    public List<Post> findAll() {
-        return super.findAll().stream().peek(post -> injectObjects(post)).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Post> findAllById(List<Long> ids) {
-        return super.findAllById(ids).stream().peek(post-> injectObjects(post)).collect(Collectors.toList());
-    }
-
-    private void injectObjects(Post post) {
-        if (post != null) {
-            User user = ObjectRepository.getInstance().getUserRepository().findById(post.getUserId()).orElse(null);
-            post.setUser(user);
-        }
     }
 }
