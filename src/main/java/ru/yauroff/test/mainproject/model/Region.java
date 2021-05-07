@@ -1,7 +1,16 @@
 package ru.yauroff.test.mainproject.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "region")
 public class Region {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "name")
     private String name;
 
     public Region() {

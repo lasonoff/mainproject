@@ -1,6 +1,7 @@
 package ru.yauroff.test.mainproject.view;
 
 import ru.yauroff.test.mainproject.repository.ConnectionFactory;
+import ru.yauroff.test.mainproject.repository.impl.ObjectRepository;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class MainView extends AbstractView implements View {
         Scanner in = new Scanner(System.in);
         String action = in.nextLine();
         if ("0".equals(action)) {
-            ConnectionFactory.getInstance().closeConnection();
+            ObjectRepository.getInstance().getSessionFactory().close();
             return;
         }
         if (views.get(action) != null) {
