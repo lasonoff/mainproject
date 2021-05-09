@@ -22,6 +22,7 @@
 
         <mapping class="ru.yauroff.test.mainproject.model.Region"/>
         <mapping class="ru.yauroff.test.mainproject.model.User"/>
+        <mapping class="ru.yauroff.test.mainproject.model.Post"/>
 
     </session-factory>
 </hibernate-configuration>

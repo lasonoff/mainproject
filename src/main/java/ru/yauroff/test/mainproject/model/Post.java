@@ -1,14 +1,31 @@
 package ru.yauroff.test.mainproject.model;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "post")
 public class Post {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "content")
     private String content;
+
+    @Column(name = "created")
     private Date created;
+
+    @Column(name = "updated")
     private Date updated;
+
+    @Column(name = "userId")
     private Long userId;
-    private transient User user;
+
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "userId", updatable = false, insertable = false)
+    private User user;
 
     public Post() {
     }

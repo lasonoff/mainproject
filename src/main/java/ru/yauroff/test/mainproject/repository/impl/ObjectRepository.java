@@ -19,7 +19,7 @@ public class ObjectRepository {
 
     private ObjectRepository() {
         createSessionFactory();
-        postRepository = new DBPostRepository();
+        postRepository = new HibPostRepository();
         regionRepository = new HibRegionRepository();
         userRepository = new HibUserRepository();
     }
@@ -54,6 +54,5 @@ public class ObjectRepository {
             logger.error("Ошибка при создании SessionFactory!", e);
             System.exit(0);
         }
-
     }
 }
