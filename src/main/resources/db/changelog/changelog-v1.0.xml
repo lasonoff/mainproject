@@ -59,9 +59,9 @@
         </createIndex>
     </changeSet>
     <changeSet author="lasonoff" id="6">
-        <addForeignKeyConstraint baseColumnNames="userId" baseTableName="post" constraintName="fk_post_user" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="userId" baseTableName="post" constraintName="fk_post_user" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="user" validate="true"/>
     </changeSet>
     <changeSet author="lasonoff" id="7">
-        <addForeignKeyConstraint baseColumnNames="regionId" baseTableName="user" constraintName="fk_user_region" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="region" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="regionId" baseTableName="user" constraintName="fk_user_region" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="region" validate="true"/>
     </changeSet>
 </databaseChangeLog>
