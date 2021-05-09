@@ -1,6 +1,5 @@
 package ru.yauroff.test.mainproject.view;
 
-import ru.yauroff.test.mainproject.repository.ConnectionFactory;
 import ru.yauroff.test.mainproject.repository.impl.ObjectRepository;
 
 import java.util.HashMap;
