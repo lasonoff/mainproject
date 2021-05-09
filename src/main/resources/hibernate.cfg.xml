@@ -21,6 +21,7 @@
         </property>
 
         <mapping class="ru.yauroff.test.mainproject.model.Region"/>
+        <mapping class="ru.yauroff.test.mainproject.model.User"/>
 
     </session-factory>
 </hibernate-configuration>

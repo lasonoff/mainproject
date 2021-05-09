@@ -21,7 +21,7 @@ public class ObjectRepository {
         createSessionFactory();
         postRepository = new DBPostRepository();
         regionRepository = new HibRegionRepository();
-        userRepository = new DBUserRepository();
+        userRepository = new HibUserRepository();
     }
 
     public PostRepository getPostRepository() {

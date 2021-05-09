@@ -1,11 +1,29 @@
 package ru.yauroff.test.mainproject.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "user")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "firstName")
     private String firstName;
+
+    @Column(name = "lastName")
     private String lastName;
-    private transient Region region;
+
+    @ManyToOne (optional=false, cascade=CascadeType.ALL)
+    @JoinColumn (name="regionId", updatable = false, insertable = false)
+    private Region region;
+
+    @Column(name = "regionId")
     private Long regionId;
+
+    @Column(name = "role")
     private Role role;
 
     public Long getId() {
