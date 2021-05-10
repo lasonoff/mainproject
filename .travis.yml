@@ -2,7 +2,7 @@ language: java
 jdk:
   - openjdk15
 
-script: mvn clean install
+script: ./mvnw clean install
 
 notifications:
   email: lason-vrn@yandex.ru
