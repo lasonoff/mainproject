@@ -1,0 +1,8 @@
+language: java
+jdk:
+  - openjdk15
+
+script: mvn clean install
+
+notifications:
+  email: lason-vrn@yandex.ru
