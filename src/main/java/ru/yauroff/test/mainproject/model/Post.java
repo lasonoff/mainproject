@@ -1,5 +1,8 @@
 package ru.yauroff.test.mainproject.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -14,17 +17,18 @@ public class Post {
     @Column(name = "content")
     private String content;
 
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created")
     private Date created;
 
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated")
     private Date updated;
 
-    @Column(name = "userId")
-    private Long userId;
-
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "userId", updatable = false, insertable = false)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "userId")
     private User user;
 
     public Post() {
@@ -32,13 +36,6 @@ public class Post {
 
     public Post(String content) {
         this.content = content;
-    }
-
-    public Post(Long id, String content, Date created, Date updated) {
-        this.id = id;
-        this.content = content;
-        this.created = created;
-        this.updated = updated;
     }
 
     public Long getId() {
@@ -73,14 +70,6 @@ public class Post {
         this.updated = updated;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
     public User getUser() {
         return user;
     }
@@ -100,7 +89,7 @@ public class Post {
         if (content != null ? !content.equals(post.content) : post.content != null) return false;
         if (created != null ? !created.equals(post.created) : post.created != null) return false;
         if (updated != null ? !updated.equals(post.updated) : post.updated != null) return false;
-        return userId != null ? userId.equals(post.userId) : post.userId == null;
+        return user != null ? user.equals(post.user) : post.user == null;
     }
 
     @Override
@@ -109,7 +98,7 @@ public class Post {
         result = 31 * result + (content != null ? content.hashCode() : 0);
         result = 31 * result + (created != null ? created.hashCode() : 0);
         result = 31 * result + (updated != null ? updated.hashCode() : 0);
-        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
         return result;
     }
 
@@ -120,7 +109,7 @@ public class Post {
                 ", content='" + content + '\'' +
                 ", created=" + created +
                 ", updated=" + updated +
-                ", userId=" + userId +
+                ", userId=" + (user == null ? "null" : user.getId()) +
                 '}';
     }
 }

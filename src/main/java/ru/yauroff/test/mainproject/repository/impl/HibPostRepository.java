@@ -17,7 +17,5 @@ public class HibPostRepository extends HibRepository<Post, Long> implements Post
     @Override
     protected void updateEntity(Post entityFromDB, Post entity) {
         entityFromDB.setContent(entity.getContent());
-        entityFromDB.setCreated(entity.getCreated());
-        entityFromDB.setUpdated(entity.getUpdated());
     }
 }
